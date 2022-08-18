@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   	s.requires_arc = true
   	s.ios.deployment_target = '8.0'
   	
-	s.source_files = './**/*.{swift,h,m}', '*.{swift,h,m}'
+	  s.source_files = './**/*.{swift,h,m}', '*.{swift,h,m}'
     s.preserve_paths = '*.sh', 'ConsoleRedirectOSX'
     s.prepare_command = <<-CMD
                             rm -rf $HOME/ConsoleRedirect
