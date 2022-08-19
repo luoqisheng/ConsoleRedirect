@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   	s.name             = "ConsoleRedirect"
-  	s.version          = "1.0.0-alpha"
+  	s.version          = "1.0.2"
   	s.summary          = "redirect xcode console to klogg"
   	s.description      = <<-DESC
   	ConsoleRedirect is a lightweight Swift library to allow data transmission between xcode/klogg (Lightning port, Dock connector, USB-C) and OSX (USB) at 480MBit. 
