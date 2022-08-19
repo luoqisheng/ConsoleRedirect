@@ -45,7 +45,7 @@ internal final class SocketWriteStream: WriteStream {
 			var bytesWritten = outputStream.write(bytes, maxLength: data.count)
 			while bytesWritten > 0 && bytesWritten != data.count {
 				autoreleasepool {
-					let subData = [UInt8](data.subdata(in: bytesWritten..<data.count-bytesWritten))
+					let subData = [UInt8](data.subdata(in: bytesWritten..<data.count))
 					bytesWritten += outputStream.write(subData, maxLength:subData.count)
 				}
 			}
