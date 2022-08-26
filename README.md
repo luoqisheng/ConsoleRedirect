@@ -8,7 +8,7 @@ ConsoleRedirect 是一款通过redirect App的stderr和 stdoutput的将Xcode的�
 * pod 引入 
 `pod "ConsoleRedirect", :git => 'https://github.com/luoqisheng/ConsoleRedirect.git', :tag => '1.0.4', :configurations => ['Debug']`
 * pod install, 此时ConsoleRedirect会将工具脚本放在$HOME/ConsoleRedirect目录下
-* Xcode Behavior，在Generate Output 下新增 run script => $HOME/ConsoleRedirect/console_redirect_start.sh, 在complete和 exit下新增 run script => $HOME/ConsoleRedirect/console_redirect_stop.sh
+* Xcode Behavior，在Running的Generate Output 下新增 run script => $HOME/ConsoleRedirect/console_redirect_start.sh, 在complete和 exit下新增 run script => $HOME/ConsoleRedirect/console_redirect_stop.sh
 * Klogg打开项目下console.log,按下F(Follow)键, enjoy it
 
 
