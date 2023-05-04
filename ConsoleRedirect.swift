@@ -22,7 +22,7 @@ public class ConsoleRedirect: NSObject {
     var connectedSocket: GCDAsyncSocket?
     let outputListener = OutputListener()
     
-    var data: Data = Data()
+    var data: Data? = Data()
     var connected = false
     
     public override init () {
@@ -55,13 +55,13 @@ public class ConsoleRedirect: NSObject {
             guard let self = self else { return }
             if !self.isiOSAppOnMac() {
                 if self.connected == true {
-                    if !self.data.isEmpty {
-                        self.port?.writeData(data: self.data)
-                        self.data = Data()
+                    if let data = self.data, !data.isEmpty {
+                        self.port?.writeData(data: data)
+                        self.data = nil
                     }
                     self.port?.writeData(data: data)
                 } else {
-                    self.data.append(data)
+                    self.data?.append(data)
                 }
             } else if let connectedSocket = self.connectedSocket {
                 connectedSocket.write(data, withTimeout: -1, tag: 0)
@@ -71,9 +71,12 @@ public class ConsoleRedirect: NSObject {
             self.outputListener.outputPipe.fileHandleForWriting.write(data)
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 20) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 20) { [weak self] in
             // clean
-            self.data = Data()
+            guard let self = self else { return }
+            if !self.connected {
+                self.clean()
+            }
         }
     }
     
@@ -84,6 +87,14 @@ public class ConsoleRedirect: NSObject {
             return ProcessInfo.processInfo.environment["SIMULATOR_HOST_HOME"] != nil
         }
     }
+    
+    private func clean() {
+        self.data = nil
+        self.connectedSocket = nil
+        self.asyncSocket = nil
+        self.port?.close()
+        self.port = nil
+    }
 }
 
 extension ConsoleRedirect: PortDelegate {
@@ -92,7 +103,8 @@ extension ConsoleRedirect: PortDelegate {
     }
     
     public func port(didDisconnect port: Port) {
-        
+        self.connected = false
+        self.clean()
     }
     
     public func port(port: Port, didReceiveData data: OOData) {
